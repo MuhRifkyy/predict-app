@@ -22,7 +22,7 @@
 
             <!-- General Form Elements -->
             <div class="col-lg-6">
-            <form action="{{route('postsales')}}" method="POST">
+            <form action="/postsales" method="POST">
               @csrf
              @method('POST')
               <div class="row mb-3" id="itemsproduk">

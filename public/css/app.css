@@ -760,6 +760,9 @@ select {
 .mr-2 {
   margin-right: 0.5rem;
 }
+.ms-1 {
+  margin-inline-start: 0.25rem;
+}
 .ms-2 {
   margin-inline-start: 0.5rem;
 }

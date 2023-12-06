@@ -47,7 +47,7 @@ class ProdukController extends Controller
             'bentuk_produk' => $request->bentuk_produk,
             'ukuran_produk' => $request->ukuran_produk
         ]);
-        return redirect()->route('product');
+        return redirect()->back()->with('success', 'Data Produk Berhasil Ditambahkan!');
     }
 
     /**

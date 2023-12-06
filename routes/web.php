@@ -71,9 +71,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
                 ->name('password.confirm');
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+->name('logout');
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-
+    Route::get('/sales', [SaleController::class,'index'])->name('sales');
+    Route::get('/createsales', [SaleController::class,'create'])->name('createsales');
+    Route::post('/postsales', [SaleController::class,'store'])->name('postsales');
+    
   
 });
 
@@ -81,15 +86,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-->name('logout');
+
 //Khusus Dashboard dan Prediksi
 Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 Route::get('/prediction', [DashboardController::class,'predict'])->name('prediction');
 
 //Khusus untuk Sales
-Route::get('/sales', [SaleController::class,'index'])->name('sales');
-Route::get('/createsales', [SaleController::class,'create'])->name('createsales');
 
 
 //Khusus untuk Stok

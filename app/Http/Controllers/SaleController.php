@@ -20,7 +20,8 @@ class SaleController extends Controller
     {
         //mengambil data dari table pegawai
     	// $sales = DB::table('sales')->get();
-        $sales = Sales::with('sales_detail','sales_detail.product','customer')->get();
+        // limt row 10
+        $sales = Sales::with('sales_detail','sales_detail.product','customer')->take(10)->get();;
         // $sales = Customer::get();
         // return $sales;
     	//mengirim data pegawai ke view index
@@ -61,6 +62,7 @@ class SaleController extends Controller
             $sales_detail->jumlah_botol = $request->jumlah_botol[$i];
             $sales_detail->save();
         }
+
         return redirect()->back()->with('status','Data Sales Berhasil Ditambahkan!');
     }
 

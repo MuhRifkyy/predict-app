@@ -74,6 +74,7 @@
                   <i class="dropdown-icon bi bi-box-arrow-right"></i>
                   <span class="ms-1">Logout</span>
                 </button>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
