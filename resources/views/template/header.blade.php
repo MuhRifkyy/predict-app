@@ -60,10 +60,20 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+              {{-- form logout --}}
+              {{-- get name --}}
+              <div class="dropdown-header d-flex align-items-center">
+                <div class="avatar"><img src="assets/img/avatar/avatar-1.jpg" alt=""></div>
+                <div class="ms-2">
+                  <h6>{{ Auth::user()->name }}</h6>
+                  <span>{{ Auth::user()->email }}</span>
+                </div>
+              <form  action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">
+                  <i class="dropdown-icon bi bi-box-arrow-right"></i>
+                  <span class="ms-1">Logout</span>
+                </button>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

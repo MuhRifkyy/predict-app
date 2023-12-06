@@ -34,8 +34,9 @@ class SaleController extends Controller
      */
     public function create()
     {
-        $produk = Produk::all();
-        return view('sale.createsales',['produk' => $produk]);
+        $data["produk"] = Produk::all();
+        $data["customer"] = Customer::all();
+        return view('sale.createsales',$data);
     }
 
     /**
@@ -46,7 +47,21 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    
+        for ($i=0; $i < count($request->item_produk); $i++) { 
+            $sales = new Sales;
+            $sales->customer_id = $request->customer;
+            $sales->tanggal_penjualan = $request->tanggal;
+            $sales->nomorcdso = $request->nomorcdso;
+            $sales->save();
+
+            $sales_detail = new Salesdetail;
+            $sales_detail->sales_id = $sales->id;
+            $sales_detail->product_id = $request->item_produk[$i];
+            $sales_detail->jumlah_botol = $request->jumlah_botol[$i];
+            $sales_detail->save();
+        }
+        return redirect()->back()->with('status','Data Sales Berhasil Ditambahkan!');
     }
 
     /**
