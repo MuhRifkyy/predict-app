@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -14,6 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $count["produk"] = Produk::count(); 
         return view('dashboard.dashboard');
     }
 

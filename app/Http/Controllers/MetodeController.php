@@ -71,8 +71,13 @@ class MetodeController extends Controller
         $data['cost_a'] = 0;
         $data['cost_b'] = [0];
         $nextPrediction = 0;
+        if ($request->has('product')) {
+            $productid = $request->input('product');
+        } else {
+            $productid = 1;
+        }
 
-        return view("metode", ['data' => $data,  'product' => $data['product'], 'x' => $data['x'], 'y' => $data['y'],'nextPrediction' => $nextPrediction]);
+        return view("metode", ['data' => $data,  'product' => $data['product'], 'x' => $data['x'], 'y' => $data['y'],'nextPrediction' => $nextPrediction,'productid'=>$productid]);
     }
 
     public function store(Request $request)
@@ -125,7 +130,13 @@ class MetodeController extends Controller
 
 
         $data['product'] = Produk::all();
-        $productid = $request->input('product');
+        if($request->has('product')){
+
+            $productid = $request->input('product');
+        }
+        else{
+            $productid = 1;
+        }
         //  return $data;
         // return $data;
         $regression = new LeastSquares();

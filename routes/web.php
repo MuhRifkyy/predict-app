@@ -89,7 +89,8 @@ Route::get('/', function () {
 
 //Khusus Dashboard dan Prediksi
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/prediction', [DashboardController::class, 'predict'])->name('prediction');
+// Route::get('/prediction', [DashboardController::class, 'predict'])->name('prediction');
+
 
 //Khusus untuk Sales
 
@@ -121,5 +122,5 @@ Route::get('/deleteproduct/{id}', [ProdukController::class, 'destroy'])->name('d
 
 
 // route viwe ke metode
-Route::get("/metode", [MetodeController::class, 'index'])->name('methode.index');
-Route::post("/metode", [MetodeController::class, 'store'])->name('methode.store');
+Route::get("/prediction", [MetodeController::class, 'index'])->name('prediction');
+Route::post("/prediction", [MetodeController::class, 'store'])->name('methode.store');
