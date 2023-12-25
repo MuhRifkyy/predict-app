@@ -20,7 +20,9 @@ class SalesFactory extends Factory
             // nomor cdso CDSO2201-00126 angkanya di random 
             'nomorcdso' => 'CDSO2201-00' . $this->faker->numberBetween(1, 400),
             'customer_id'=> $this->faker->numberBetween(1, 2100),
-            'tanggal_penjualan' => $this->faker->date(),
+            //get tanngal penjualan dari csv
+            
+
             
         ];
     }

@@ -49,9 +49,12 @@
                       @endforeach
                     </td>
                     <td>
-                        {{-- <a class="bi bi-pencil-square" style="size: 20px;" href="{{route('editproduct',['id'=>$p->id])}}"></a>
-        s                |
-                        <a class="bi bi-trash-fill" style="size: 20px;" href="{{route('deleteproduct',['id'=>$p->id])}}"></a> --}}
+                     {{-- form delete --}}
+                      <form action="{{route('deletesales', $s->id)}}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <button class="btn btn-outline-danger" type="submit" id="btn-cardplus">Delete</button>
+                      </form>
                     </td>
                 </tr>
                 @endforeach

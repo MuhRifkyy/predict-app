@@ -108,6 +108,8 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sales = Sales::find($id);
+        $sales->delete();
+        return redirect()->back()->with('status','Data Sales Berhasil Dihapus!');
     }
 }

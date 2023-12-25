@@ -111,6 +111,7 @@
                   <script>
                     document.addEventListener("DOMContentLoaded", () => {
                       new ApexCharts(document.querySelector("#reportsChart"), {
+                      
                         series: [{
                           name: 'Sales',
                           data: [31, 40, 28, 51, 42, 82, 56],

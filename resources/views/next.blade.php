@@ -1,0 +1,1 @@
+<p>{{$nextPrediction}}</p>

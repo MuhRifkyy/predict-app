@@ -289,6 +289,7 @@ class MetodeLinearRegresion {
         $jml_original = count($data_original);
         $jml_parameter_prediction = count($paramter_predixtion);
 
+        
         if ($jml_original !== $jml_parameter_prediction) {
             echo "jumlah data original dan paramter tidak valid, jumlah total row berbeda, jumlah orginal {$jml_original} dan jumlah paramter {$jml_parameter_prediction}";
             exit;
