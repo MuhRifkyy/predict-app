@@ -19,7 +19,17 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Sales Products</h5>
-              <a class="btn btn-outline-success" href="{{route('createsales')}}" role="button">Add Sales</a>
+              <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="btn btn-outline-success" href="{{route('createsales')}}" role="button">Add Sales</a>
+                  <form class="d-flex" action="{{route('sales')}}">
+                    <input class="form-control me-2" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form>
+                </div>
+              </nav>
+              {{-- search --}}
+            
               <!-- Table with hoverable rows -->
               <table class="table table-hover">
                 <thead>
@@ -56,17 +66,51 @@
                         <button class="btn btn-outline-danger" type="submit" id="btn-cardplus">Delete</button>
                       </form>
                     </td>
-                </tr>
-                @endforeach
-              </tbody>
+                  </tr>
+                  
+                  @endforeach
+                </tbody>
+                
               </table>
+              {{-- paginate --}}
+              
               <!-- End Table with hoverable rows -->
             </div>
           </div>
-
+          
         </div>
       </div>
     </section>
+   
+      <!-- ... konten lainnya ... -->
+      
+      <!-- Links pagination -->
+      {{-- <div class="d-flex justify-around">
+
+       
+      
+        {{ $sales->links('pagination::bootstrap-4') }}
+   
+       
+      </div> --}}
+      <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a>
+            Showing
+            {{ $sales->firstItem() }}
+            to
+            {{ $sales->lastItem() }}
+            of
+            {{ $sales->total() }}
+            entries
+          </a>
+          <form class="d-flex">
+            {{ $sales->links('pagination::bootstrap-4') }}
+          </form>
+        </div>
+        </nav>
+  
 
   </main><!-- End #main -->
+ 
 @endsection

@@ -16,7 +16,11 @@ class CustomerController extends Controller
     public function index()
     {
         //mengambil data dari table pegawai
-    	$customers = DB::table('customers')->get();
+    	$customers = DB::table('customers')->paginate(20);
+     
+        if(request()->has('search')){
+            $customers = Customer::where('pelanggan','LIKE','%'.request('search').'%')->paginate(20);
+        }
 
     	//mengirim data pegawai ke view index
     	return view('customers.customer',['customers' => $customers]);

@@ -14,19 +14,29 @@
 
     <section class="section">
       <div class="row">
-        <div class="col-md-12">
-          <div class="alert alert-success alert-dismissible fase show" role="alert">
-            <strong>Data Berhasil</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+       @if (session('success'))
+       <div class="col-md-12">
+        <div class="alert alert-success alert-dismissible fase show" role="alert">
+          <strong>Data Berhasil</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+      </div>
+           
+       @endif
         <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Product List</h5>
-              <a class="btn btn-outline-success" role="button" href="{{route('createproduct')}}">Add Product</a>
-              <!-- Table with hoverable rows -->
+              <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="btn btn-outline-success" href="{{route('createproduct')}}" role="button">Add Product</a>
+                  <form class="d-flex" action="{{route('product')}}">
+                    <input class="form-control me-2" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form>
+                </div>
+              </nav> <!-- Table with hoverable rows -->
               <table class="table table-hover">
                 <thead>
                   <tr>
@@ -56,10 +66,26 @@
               <!-- End Table with hoverable rows -->
             </div>
           </div>
-
+          <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+              <a>
+                Showing
+                {{ $product->firstItem() }}
+                to
+                {{ $product->lastItem() }}
+                of
+                {{ $product->total() }}
+                entries
+              </a>
+              <form class="d-flex">
+                {{ $product->links('pagination::bootstrap-4') }}
+              </form>
+            </div>
+            </nav>
         </div>
       </div>
     </section>
 
   </main><!-- End #main -->
+
 @endsection

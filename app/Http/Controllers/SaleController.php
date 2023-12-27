@@ -21,7 +21,21 @@ class SaleController extends Controller
         //mengambil data dari table pegawai
     	// $sales = DB::table('sales')->get();
         // limt row 10
-        $sales = Sales::with('sales_detail','sales_detail.product','customer')->take(10)->get();;
+        $sales = Sales::with('sales_detail','sales_detail.product','customer')->orderBy('id','desc')->paginate(20);
+        if(request()->has('search')){
+    //    search by nomorcdso customer item produk
+            $sales = Sales::with('sales_detail','sales_detail.product','customer')
+            ->where('nomorcdso','LIKE','%'.request('search').'%')
+            ->orWhereHas('customer',function($query){
+                $query->where('pelanggan','LIKE','%'.request('search').'%');
+            })
+            ->orWhereHas('sales_detail',function($query){
+                $query->whereHas('product',function($query){
+                    $query->where('item_produk','LIKE','%'.request('search').'%');
+                });
+            })
+            ->orderBy('id','desc')->paginate(20);
+        }
         // $sales = Customer::get();
         // return $sales;
     	//mengirim data pegawai ke view index

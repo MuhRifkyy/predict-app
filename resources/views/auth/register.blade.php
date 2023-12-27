@@ -1,9 +1,9 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
+        
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+          
         </x-slot>
 
         <!-- Validation Errors -->
@@ -43,6 +43,16 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />
+            </div>
+            {{-- role --}}
+            <div class="mt-4">
+                <x-label for="role" :value="__('Role')" />
+
+                <select name="role" id="role" class="block mt-1 w-full">
+                  
+                    <option value="adminsales">Admin Sales</option>
+                    <option value="adminstock">Admin Stock</option>
+                </select>
             </div>
 
             <div class="flex items-center justify-end mt-4">

@@ -1,4 +1,4 @@
-@extends('template.header')
+  @extends('template.header')
 @section('content')
   <main id="main" class="main">
 

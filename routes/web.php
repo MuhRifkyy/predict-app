@@ -75,11 +75,7 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-    Route::get('/sales', [SaleController::class, 'index'])->name('sales');
-    Route::get('/createsales', [SaleController::class, 'create'])->name('createsales');
-    Route::post('/postsales', [SaleController::class, 'store'])->name('postsales');
-
-    Route::delete('/sale/{id}', [SaleController::class, 'destroy'])->name('deletesales');
+   
 });
 
 Route::get('/', function () {
@@ -88,39 +84,56 @@ Route::get('/', function () {
 
 
 //Khusus Dashboard dan Prediksi
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// dua middleware
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth','multirole:superadmin,adminstock,adminsales');
 // Route::get('/prediction', [DashboardController::class, 'predict'])->name('prediction');
 
 
 //Khusus untuk Sales
 
 
-//Khusus untuk Stok
-Route::get('/stock', [StocksController::class, 'index'])->name('stock');
-Route::get('/createstock', [StocksController::class, 'create'])->name('createstock');
-Route::post('/poststock', [StocksController::class, 'store'])->name('poststock');
-Route::get('/editstock/{id}', [StocksController::class, 'edit'])->name('editstock');
-Route::post('/updatestock', [StocksController::class, 'update'])->name('updatestock');
-Route::get('/deletestock/{id}', [StocksController::class, 'destroy'])->name('deletestock');
 
+Route::middleware("auth","multirole:adminstock,superadmin")->group(function () {
+    Route::get('/stock', [StocksController::class, 'index'])->name('stock');
+    Route::get('/createstock', [StocksController::class, 'create'])->name('createstock');
+    Route::post('/poststock', [StocksController::class, 'store'])->name('poststock');
+    Route::get('/editstock/{id}', [StocksController::class, 'edit'])->name('editstock');
+    Route::post('/updatestock', [StocksController::class, 'update'])->name('updatestock');
+    Route::get('/deletestock/{id}', [StocksController::class, 'destroy'])->name('deletestock');
+});
+
+
+Route::middleware("auth","multirole:adminsales,superadmin")->group(function () {
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales');
+    Route::get('/createsales', [SaleController::class, 'create'])->name('createsales');
+    Route::post('/postsales', [SaleController::class, 'store'])->name('postsales');
+    Route::delete('/sale/{id}', [SaleController::class, 'destroy'])->name('deletesales');
+});
 
 //Khusus untuk Customer
-Route::get('/customer', [CustomerController::class, 'index'])->name('customer');
-Route::get('/customercreate', [CustomerController::class, 'create'])->name('customercreate');
-Route::post('/customerpost', [CustomerController::class, 'store'])->name('customerpost');
-Route::get('/editcustomer/{id}', [CustomerController::class, 'edit'])->name('customeredit');
-Route::post('/customerupdate', [CustomerController::class, 'update'])->name('customerupdate');
-Route::get('/customerdelete/{id}', [CustomerController::class, 'destroy'])->name('customerdelete');
+Route::middleware("auth","multirole:adminsales,superadmin")->group(function () {
+    Route::get('/customer', [CustomerController::class, 'index'])->name('customer');
+    Route::get('/customercreate', [CustomerController::class, 'create'])->name('customercreate');
+    Route::post('/customerpost', [CustomerController::class, 'store'])->name('customerpost');
+    Route::get('/editcustomer/{id}', [CustomerController::class, 'edit'])->name('customeredit');
+    Route::post('/customerupdate', [CustomerController::class, 'update'])->name('customerupdate');
+    Route::get('/customerdelete/{id}', [CustomerController::class, 'destroy'])->name('customerdelete');
+});
 
 //Khusus untuk Produk
-Route::get('/product', [ProdukController::class, 'index'])->name('product');
-Route::get('/createproduct', [ProdukController::class, 'create'])->name('createproduct');
-Route::post('/postproduct', [ProdukController::class, 'store'])->name('postproduct');
-Route::get('/editproduct/{id}', [ProdukController::class, 'edit'])->name('editproduct');
-Route::post('/updateproduct', [ProdukController::class, 'update'])->name('updateproduct');
-Route::get('/deleteproduct/{id}', [ProdukController::class, 'destroy'])->name('deleteproduct');
+Route::middleware("auth","multirole:adminstock,adminsales,superadmin")->group(function () {
+    Route::get('/product', [ProdukController::class, 'index'])->name('product');
+    Route::get('/createproduct', [ProdukController::class, 'create'])->name('createproduct');
+    Route::post('/postproduct', [ProdukController::class, 'store'])->name('postproduct');
+    Route::get('/editproduct/{id}', [ProdukController::class, 'edit'])->name('editproduct');
+    Route::post('/updateproduct', [ProdukController::class, 'update'])->name('updateproduct');
+    Route::get('/deleteproduct/{id}', [ProdukController::class, 'destroy'])->name('deleteproduct');
+});
 
 
 // route viwe ke metode
-Route::get("/prediction", [MetodeController::class, 'index'])->name('prediction');
-Route::post("/prediction", [MetodeController::class, 'store'])->name('methode.store');
+Route::middleware("auth","multirole:superadmin")->group(function(){
+    Route::get("/prediction", [MetodeController::class, 'index'])->name('prediction');
+    Route::post("/prediction", [MetodeController::class, 'store'])->name('methode.store');
+});

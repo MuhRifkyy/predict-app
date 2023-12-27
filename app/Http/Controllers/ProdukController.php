@@ -16,8 +16,11 @@ class ProdukController extends Controller
     public function index()
     {
         //mengambil data dari table pegawai
-    	$product = DB::table('product')->get();
-
+    	$product = DB::table('product')->paginate(10);
+         
+            if(request()->has('search')){
+                $product = Produk::where('item_produk','LIKE','%'.request('search').'%')->paginate(10);
+            }
     	//mengirim data pegawai ke view index
     	return view('product.product',['product' => $product]);
     }

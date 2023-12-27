@@ -25,10 +25,15 @@
   <link href="{{asset('assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
   <!-- Template Main CSS File -->
   <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
-
+  <style>
+    .dataTables_length {
+      display: none;
+    }
+  </style>
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Mar 09 2023 with Bootstrap v5.2.3
@@ -96,36 +101,48 @@
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
+      @if (Auth::user()->role == 'superadmin' )
+          
+      <li class="nav-item" >
         <a class="nav-link " href="{{route('prediction')}}">
           <i class="bi bi-bar-chart"></i>
           <span>Prediction</span>
         </a>
       </li><!-- End Prediction Nav -->
+      @endif
+      @if(Auth::user()->role == 'superadmin' || Auth::user()->role == 'adminsales' )
       <li class="nav-item">
         <a class="nav-link " href="{{route('sales')}}">
           <i class="bi bi-receipt"></i>
           <span>Sales</span>
         </a>
-      </li><!-- End Sales Nav -->
+      </li>
+      @endif
+        
       <li class="nav-item">
         <a class="nav-link " href="{{route('product')}}">
           <i class="bi bi-box-seam"></i>
           <span>Product</span>
         </a>
-      </li><!-- End Stocks Nav -->
+      </li>
+  
+      @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'adminsales')
+          
       <li class="nav-item">
         <a class="nav-link " href="{{route('customer')}}">
           <i class="bi bi-people"></i>
           <span>Customer</span>
         </a>
       </li><!-- End Customer Nav -->
+      @endif
+      @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'adminstock')
       <li class="nav-item">
         <a class="nav-link " href="{{route('stock')}}">
           <i class="bi bi-bag-dash"></i>
           <span>Stock</span>
         </a>
       </li><!-- End Stocks Nav -->
+      @endif
     </ul>
 
   </aside><!-- End Sidebar-->
