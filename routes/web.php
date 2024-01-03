@@ -30,6 +30,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\MetodeController;
+use App\Http\Controllers\PredictController;
 
 // use Illuminate\Support\Facades
 
@@ -137,3 +138,8 @@ Route::middleware("auth","multirole:superadmin")->group(function(){
     Route::get("/prediction", [MetodeController::class, 'index'])->name('prediction');
     Route::post("/prediction", [MetodeController::class, 'store'])->name('methode.store');
 });
+
+
+
+    Route::get("/predict", [PredictController::class, 'index'])->name('predict');
+    Route::post("/predict", [PredictController::class, 'store'])->name('predict.store');

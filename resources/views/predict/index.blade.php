@@ -11,11 +11,11 @@
   
           <div class="card">
             <div class="card-body">
-              <form action="{{route('methode.store')}}" method="post">
+              <form action="{{route('predict.store')}}" method="post">
                 @method('POST')
                 @csrf
             <div class="row mb-3">
-              <h5 class="text-center pt-4 fw-bold">Input Data Produk</h5>
+              <h5 class="text-center pt-4 fw-bold">Masukan Data Product Yang Ingin Di Prediksi</h5>
                 <label class="col-sm-6 col-form-label fw-bold">Nama Product</label>
                 <div class="col-sm-12 ">
                 
@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
           <div class="row">
             <div class="card">
                 <div class="card-body p-4">
@@ -50,7 +50,7 @@
                 </div>
             </div>
           </div>
-        </div>
+        </div> --}}
       </div>
 
         <section class="section">
@@ -73,14 +73,14 @@
                     </thead>
                     <tbody>
                       {{-- if ada data x --}}
-                      @if (isset($data['x']) && count($data['x']) > 0)
-                      @for ($i = 0; $i < count($data['x']); $i++)
+                      @if (isset($x) && count($x) > 0)
+                      @for ($i = 0; $i < count($x); $i++)
                           <tr>
-                              <td>{{ $data['x'][$i][0] }}</td>
-                              <td>{{ $data['y'][$i] }}</td>
-                              <td>{{$data["x2"][$i]}}</td>
-                              <td>{{$data["y2"][$i]}}</td>
-                              <td>{{ $data['predict'][$i][0] }}</td>
+                              <td>{{ $x[$i][0] }}</td>
+                              <td>{{ $spss[$i] }}</td>
+                              <td>{{$x2[$i]}}</td>
+                              <td>{{$y2[$i]}}</td>
+                              <td>{{ $predict[$i] }}</td>
                           </tr>
                       @endfor
                   @endif                    </tbody>
@@ -102,8 +102,8 @@
             <div class="card">
               <div class="card-body p-4">
                 <h2 class="text-center fw-bold">Const</h2>
-                <h5 class="text-dark fw-semibold" >const A = {{$data["cost_a"]}}</h5>
-                <h5 class="text-dark fw-semibold">const B = {{$data["cost_b"][0]}}</h5>
+                <h5 class="text-dark fw-semibold" >const A = {{$const_a}}</h5>
+                <h5 class="text-dark fw-semibold">const B = {{$const_b}}</h5>
                 
               </div>
             </div>
@@ -112,22 +112,35 @@
             <div class="card">
               <div class="card-body p-4">
                 <h2 class="text-center fw-bold">Predict Selanjutnya</h2>
-                <form action="{{ route('methode.store') }}" method="post">
-                  @method('POST')
+                {{-- checkbox --}}
+                <p>Tekan Untuk Melakukan Prediksi Selanjutnya</p>
+                @method('POST')
+               
+                <form action="{{ route('predict.store') }}" method="post">
                   @csrf
                   <div class="row mb-3">
                     <input type="hidden" name="product" value="{{$productid}}">
-                      <label class="col-sm-12 col-form-label fw-semibold">Penjualan ke </label>
-                      <div class="col-sm-8">
-                          <input type="number" name="predict" placeholder="Masukkan prediksi selanjutnya" class="form-control">
-                      </div>
-                      <div class="col-sm-8 mt-3">
+                    <input type="hidden" name="yes" value="benar">
+                       </div>
+                      <div class="col-sm-8 mt-1">
                           <button type="submit" class="btn btn-primary">Prediksi</button>
                       </div>
                   </div>
               </form>
-              
-                <h5 class="text-dark fw-bold">Nilai Prediksi Selanjutnya: {{ $nextPrediction }}</h5>
+              <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Prediksi</th>
+                        <th>Mape</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ $nextPrediction }}</td>
+                        <td>{{ $mape }}%</td>
+                    </tr>
+                </tbody>
+              </table>
             
               </div>
             </div>

@@ -23,13 +23,13 @@ class DashboardController extends Controller
         $count["customer"] = Customer::select('id')->count();
         // chart sales
         $salesData = Sales::selectRaw('YEAR(tanggal_penjualan) as year, MONTH(tanggal_penjualan) as month, COUNT(*) as total_sales')
-        ->whereRaw('YEAR(tanggal_penjualan) >= YEAR(CURDATE()) - 2')
+        ->whereRaw('YEAR(tanggal_penjualan) >= YEAR(CURDATE()) - 3')
         ->groupBy('year', 'month')
         ->orderBy('year', 'asc')
         ->orderBy('month', 'asc')
         ->get();
         $stockData = Stock::selectRaw('YEAR(tanggal_pembelian) as year, MONTH(tanggal_pembelian) as month, COUNT(*) as total_stock')
-        ->whereRaw('YEAR(tanggal_pembelian) >= YEAR(CURDATE()) - 2')
+        ->whereRaw('YEAR(tanggal_pembelian) >= YEAR(CURDATE()) - 3')
         ->groupBy('year', 'month')
         ->orderBy('year', 'asc')
         ->orderBy('month', 'asc')

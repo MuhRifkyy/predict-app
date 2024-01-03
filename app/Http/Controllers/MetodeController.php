@@ -35,6 +35,8 @@ class MetodeController extends Controller
         }
     
         $mape = ($sumAPE / $count) * 100;
+
+       
         return $mape;
     }
 
@@ -87,6 +89,7 @@ class MetodeController extends Controller
             $productid = $request->input('product');
         } else {
             $productid = 1;
+            
         }
 
         return view("metode", ['data' => $data,  'product' => $data['product'], 'x' => $data['x'], 'y' => $data['y'],'nextPrediction' => $nextPrediction,'productid'=>$productid,'mape'=>$data["mape"],'x2'=>$data["x2"],'y2'=>$data["y2"]]);
@@ -94,17 +97,14 @@ class MetodeController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->input('predict')); 
+        
         $firstDate = Sales::orderBy('tanggal_penjualan', 'asc')->value('tanggal_penjualan');
         $lastDate = Sales::orderBy('tanggal_penjualan', 'desc')->value('tanggal_penjualan');
 
-        // Memecah tanggal pertama dan terakhir untuk mendapatkan bulan dan tahunnya
         $firstYear = date('Y', strtotime($firstDate));
         $firstMonth = date('m', strtotime($firstDate));
         $lastYear = date('Y', strtotime($lastDate));
         $lastMonth = date('m', strtotime($lastDate));
-
-        // Menghitung total bulan dalam rentang tanggal
         $totalMonths = (($lastYear - $firstYear) * 12) + ($lastMonth - $firstMonth) + 1;
 
 
@@ -121,12 +121,11 @@ class MetodeController extends Controller
 
 
         for ($i = 0; $i < $totalMonths; $i++) {
-            // Hitung tahun dan bulan berdasarkan indeks bulan
+          
             $currentYear = $firstYear + floor(($firstMonth + $i - 1) / 12);
             $currentMonth = ($firstMonth + $i - 1) % 12 + 1;
 
-            // Menghitung total penjualan untuk bulan saat ini
-            $totalPenjualan = Salesdetail::selectRaw('COALESCE(COUNT(salesdetail.id), 0) as total_penjualan')
+            $totalPenjualan = Salesdetail::selectRaw('COALESCE(SUM(salesdetail.jumlah_botol), 0) as total_penjualan')
                 ->join('sales', 'sales.id', '=', 'salesdetail.sales_id')
                 ->whereYear('sales.tanggal_penjualan', $currentYear)
                 ->whereMonth('sales.tanggal_penjualan', $currentMonth)
@@ -134,7 +133,6 @@ class MetodeController extends Controller
                 ->first()   
                 ->total_penjualan;
 
-            // Menambahkan total penjualan ke dalam array
             $result[] = $totalPenjualan;
         }
 
@@ -158,8 +156,6 @@ class MetodeController extends Controller
         }
         $nextPrediction = 0;
         if ($request->has('predict')) {
-          
-            // predict nya dari reques
             $nextPrediction = $regression->predict([$request->input('predict')]);
           
         }
@@ -168,19 +164,17 @@ class MetodeController extends Controller
         $data["cost_b"] = $regression->getCoefficients();
         // get mape
         $data["mape"] = $this->getMape($data['y'], $data['predict']);
+        $data["mape"] = round($data["mape"], 0);
+     
         // kuadrat x,y
         $data["x2"] = [];
         foreach ($data["x"] as $row){
             $data["x2"][] = $row[0] * $row[0];
 
         }
-        
-        
-    $data["y2"] = array_map(function($x) { return $x * $x; }, $data["y"]);
-    
-       
 
         
+        $data["y2"] = array_map(function($x) { return $x * $x; }, $data["y"]);
      
 
         return view("metode", ['data' => $data,'productid'=>$productid, 'x' => $data['x'], 'y' => $data['y'], 'predict' => $data['predict'], 'product' => $data['product'],"nextPrediction"=>$nextPrediction,'mape'=>$data["mape"],'x2'=>$data["x2"],'y2'=>$data["y2"]]);
